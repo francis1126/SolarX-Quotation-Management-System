@@ -1,0 +1,41 @@
+import { quotationStorage } from './localStorageService';
+import { Quotation, DashboardStats } from '../types';
+
+export const quotationService = {
+  getAll: async (search?: string, status?: string, startDate?: string, endDate?: string): Promise<Quotation[]> => {
+    return quotationStorage.getAll({ search, status });
+  },
+
+  getById: async (id: string): Promise<Quotation> => {
+    const quotation = quotationStorage.getById(id);
+    if (!quotation) throw new Error('Quotation not found');
+    return quotation;
+  },
+
+  create: async (quotation: Partial<Quotation>): Promise<Quotation> => {
+    return quotationStorage.create(quotation);
+  },
+
+  update: async (id: string, quotation: Partial<Quotation>): Promise<Quotation> => {
+    const updated = quotationStorage.update(id, quotation);
+    if (!updated) throw new Error('Quotation not found');
+    return updated;
+  },
+
+  delete: async (id: string): Promise<void> => {
+    quotationStorage.delete(id);
+  },
+
+  getDashboardStats: async (): Promise<DashboardStats> => {
+    return quotationStorage.getDashboardStats();
+  },
+
+  updateExpired: async (): Promise<void> => {
+    // Not needed for localStorage version
+  },
+
+  downloadPDF: async (id: string): Promise<Blob> => {
+    // PDF generation not available in localStorage version
+    throw new Error('PDF download not available in offline mode');
+  },
+};
