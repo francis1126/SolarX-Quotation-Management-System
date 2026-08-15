@@ -1,5 +1,6 @@
-import { quotationStorage } from './localStorageService';
-import { Quotation, DashboardStats } from '../types';
+import { quotationStorage, settingsStorage } from './localStorageService';
+import { Quotation, DashboardStats, Settings } from '../types';
+import { generateQuotationPDF } from '../utils/quotationPdf';
 
 export const quotationService = {
   getAll: async (search?: string, status?: string, startDate?: string, endDate?: string): Promise<Quotation[]> => {
@@ -35,7 +36,8 @@ export const quotationService = {
   },
 
   downloadPDF: async (id: string): Promise<Blob> => {
-    // PDF generation not available in localStorage version
-    throw new Error('PDF download not available in offline mode');
+    const quotation = quotationStorage.getById(id);
+    if (!quotation) throw new Error('Quotation not found');
+    return generateQuotationPDF(quotation, settingsStorage.get() as Settings | null);
   },
 };
