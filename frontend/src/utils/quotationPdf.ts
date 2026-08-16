@@ -56,17 +56,15 @@ export const generateQuotationPDF = (quotation: Quotation, settings?: Settings |
   // Customer info spacing
   y += 8;
 
-  // Items table - hide price details
+  // Items table - only show item and quantity
   const itemColX = margin;
-  const descriptionColX = margin + 150;
-  const qtyColX = margin + 420;
+  const qtyColX = margin + 380;
 
   doc.setFontSize(10);
   doc.setFillColor(26, 95, 42);
   doc.rect(margin, y, contentWidth, 18, 'F');
   doc.setTextColor(255, 255, 255);
   doc.text('Item', itemColX + 6, y + 12);
-  doc.text('Description', descriptionColX + 6, y + 12);
   doc.text('Qty', qtyColX + 6, y + 12);
   y += 18;
 
@@ -78,13 +76,10 @@ export const generateQuotationPDF = (quotation: Quotation, settings?: Settings |
     }
 
     const itemName = item.productName || item.productCode || '-';
-    const description = item.description || '—';
-
     doc.setFillColor(245, 245, 245);
     doc.rect(margin, y, contentWidth, 22, 'F');
     doc.setTextColor('#333');
-    doc.text(itemName, itemColX + 6, y + 14, { maxWidth: 120 });
-    doc.text(description, descriptionColX + 6, y + 14, { maxWidth: 220 });
+    doc.text(itemName, itemColX + 6, y + 14, { maxWidth: 340 });
     doc.text(String(item.quantity), qtyColX + 6, y + 14);
     y += 22;
   });
