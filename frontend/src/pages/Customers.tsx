@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Plus, Search, Edit2, Trash2, Eye } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2 } from 'lucide-react';
 import { customerService } from '../services/customerService';
 import { Customer } from '../types';
 import Modal from '../components/Modal';

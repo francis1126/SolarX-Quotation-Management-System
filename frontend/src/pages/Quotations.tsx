@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus, Search, Download, Eye, Edit2, Trash2 } from 'lucide-react';
-import { formatCurrency, formatDate, getStatusColor } from '../utils/format';
+import { formatCurrency, formatDate } from '../utils/format';
 import { quotationService } from '../services/quotationService';
 import { Quotation } from '../types';
 import StatusBadge from '../components/StatusBadge';

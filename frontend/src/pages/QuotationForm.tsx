@@ -87,7 +87,7 @@ const QuotationForm = () => {
       productCode: '',
       productName: '',
       description: '',
-      quantity: 1,
+      quantity: 0,
       unit: '',
       unitPrice: 0,
       discount: 0,
@@ -317,10 +317,11 @@ const QuotationForm = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
                         <input
                           type="number"
-                          min="1"
-                          value={item.quantity}
-                          onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value) || 1)}
+                          min="0"
+                          value={item.quantity === 0 ? '' : item.quantity}
+                          onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value) || 0)}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-solar-500 focus:border-transparent"
+                          placeholder="Enter quantity"
                           required
                         />
                       </div>

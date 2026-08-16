@@ -12,6 +12,7 @@ export interface RegisterCredentials {
 }
 
 export interface AuthResponse {
+  token: string;
   user: {
     _id: string;
     name: string;
@@ -22,12 +23,18 @@ export interface AuthResponse {
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     const user = await authStorage.login(credentials.email, credentials.password);
-    return { user };
+    return {
+      token: `local-${user._id}`,
+      user,
+    };
   },
 
   register: async (credentials: RegisterCredentials): Promise<AuthResponse> => {
     const user = await authStorage.register(credentials);
-    return { user };
+    return {
+      token: `local-${user._id}`,
+      user,
+    };
   },
 
   logout: () => {

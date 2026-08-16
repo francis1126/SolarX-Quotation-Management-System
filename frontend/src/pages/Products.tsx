@@ -135,9 +135,9 @@ const Products = () => {
         </div>
         <button
           onClick={handleOpenModal}
-          className="flex items-center gap-2 bg-solar-600 text-white px-4 py-2 rounded-lg hover:bg-solar-700 transition-colors"
+          className="flex items-center gap-2 bg-solar-600 text-white px-3 py-1 rounded-lg text-sm sm:px-4 sm:py-2 sm:text-base hover:bg-solar-700 transition-colors"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
           Add Product
         </button>
       </div>
@@ -190,10 +190,10 @@ const Products = () => {
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Category
                   </th>
-                  <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="hidden sm:table-cell px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Unit
                   </th>
-                  <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="hidden sm:table-cell px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Price
                   </th>
                   <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -221,10 +221,10 @@ const Products = () => {
                   <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {product.category}
                   </td>
-                  <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="hidden sm:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {product.unit}
                   </td>
-                  <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <td className="hidden sm:table-cell px-4 lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {formatCurrency(product.sellingPrice)}
                   </td>
                   <td className="px-4 lg:px-6 py-4 whitespace-nowrap">

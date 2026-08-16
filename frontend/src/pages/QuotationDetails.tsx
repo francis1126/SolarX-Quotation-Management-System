@@ -65,37 +65,37 @@ const QuotationDetails = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => navigate('/quotations')}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{quotation.quotationNumber}</h1>
-            <p className="text-gray-500 mt-1">Quotation Details</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
+                <button
+                  onClick={() => navigate('/quotations')}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{quotation.quotationNumber}</h1>
+                  <p className="text-gray-500 mt-1">Quotation Details</p>
+                </div>
+              </div>
+          <div className="flex items-center gap-2">
           <button
             onClick={handleDownloadPDF}
-            className="flex items-center gap-2 bg-solar-600 text-white px-4 py-2 rounded-lg hover:bg-solar-700 transition-colors"
+            className="flex items-center gap-2 bg-solar-600 text-white px-3 py-1 rounded-lg text-sm sm:px-4 sm:py-2 sm:text-base hover:bg-solar-700 transition-colors"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-3 h-3 sm:w-4 sm:h-4" />
             Download PDF
           </button>
           <button
             onClick={handlePrint}
-            className="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 border border-gray-300 px-3 py-1 rounded-lg text-sm sm:px-4 sm:py-2 sm:text-base hover:bg-gray-50 transition-colors"
           >
-            <Printer className="w-4 h-4" />
+            <Printer className="w-3 h-3 sm:w-4 sm:h-4" />
             Print
           </button>
           <Link
             to={`/quotations/${quotation._id}/edit`}
-            className="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 border border-gray-300 px-3 py-1 rounded-lg text-sm sm:px-4 sm:py-2 sm:text-base hover:bg-gray-50 transition-colors"
           >
-            <Edit2 className="w-4 h-4" />
+            <Edit2 className="w-3 h-3 sm:w-4 sm:h-4" />
             Edit
           </Link>
         </div>
@@ -114,7 +114,7 @@ const QuotationDetails = () => {
               Date: {formatDate(quotation.quotationDate)}
             </p>
             <p className="text-sm text-gray-500">
-              Valid Until: {formatDate(quotation.validUntil)}
+              Valid Until: {quotation.validUntil ? formatDate(quotation.validUntil) : 'Not specified'}
             </p>
           </div>
         </div>
@@ -140,29 +140,29 @@ const QuotationDetails = () => {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Items</h3>
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-200">
+                <tr className="border-b border-gray-200">
                 <th className="text-left py-3 text-sm font-medium text-gray-500">Item</th>
                 <th className="text-left py-3 text-sm font-medium text-gray-500">Description</th>
                 <th className="text-right py-3 text-sm font-medium text-gray-500">Qty</th>
-                <th className="text-right py-3 text-sm font-medium text-gray-500">Unit</th>
-                <th className="text-right py-3 text-sm font-medium text-gray-500">Price</th>
-                <th className="text-right py-3 text-sm font-medium text-gray-500">Discount</th>
-                <th className="text-right py-3 text-sm font-medium text-gray-500">Total</th>
+                <th className="hidden sm:table-cell text-right py-3 text-sm font-medium text-gray-500">Unit</th>
+                <th className="hidden sm:table-cell text-right py-3 text-sm font-medium text-gray-500">Price</th>
+                <th className="hidden sm:table-cell text-right py-3 text-sm font-medium text-gray-500">Discount</th>
+                <th className="hidden sm:table-cell text-right py-3 text-sm font-medium text-gray-500">Total</th>
               </tr>
             </thead>
             <tbody>
               {quotation.items.map((item, index) => (
-                <tr key={index} className="border-b border-gray-100">
+                  <tr key={index} className="border-b border-gray-100">
                   <td className="py-4 text-sm text-gray-900">{item.productCode}</td>
                   <td className="py-4 text-sm text-gray-600">
                     <div className="font-medium">{item.productName}</div>
                     {item.description && <div className="text-xs">{item.description}</div>}
                   </td>
                   <td className="py-4 text-sm text-gray-900 text-right">{item.quantity}</td>
-                  <td className="py-4 text-sm text-gray-600 text-right">{item.unit}</td>
-                  <td className="py-4 text-sm text-gray-900 text-right">{formatCurrency(item.unitPrice)}</td>
-                  <td className="py-4 text-sm text-gray-600 text-right">{item.discount ? formatCurrency(item.discount) : '-'}</td>
-                  <td className="py-4 text-sm font-medium text-gray-900 text-right">{formatCurrency(item.total)}</td>
+                  <td className="hidden sm:table-cell py-4 text-sm text-gray-600 text-right">{item.unit}</td>
+                  <td className="hidden sm:table-cell py-4 text-sm text-gray-900 text-right">{formatCurrency(item.unitPrice)}</td>
+                  <td className="hidden sm:table-cell py-4 text-sm text-gray-600 text-right">{item.discount ? formatCurrency(item.discount) : '-'}</td>
+                  <td className="hidden sm:table-cell py-4 text-sm font-medium text-gray-900 text-right">{formatCurrency(item.total)}</td>
                 </tr>
               ))}
             </tbody>
@@ -209,7 +209,9 @@ const QuotationDetails = () => {
 
         {/* Footer */}
         <div className="pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
-          <p>This quotation is valid until {formatDate(quotation.validUntil)}</p>
+          <p>
+            This quotation is valid until {quotation.validUntil ? formatDate(quotation.validUntil) : 'not specified'}
+          </p>
           <p className="mt-1">Thank you for your business!</p>
         </div>
       </div>
