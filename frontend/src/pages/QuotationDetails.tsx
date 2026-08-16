@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Download, Edit2, Printer } from 'lucide-react';
+import { ArrowLeft, Download, Edit2 } from 'lucide-react';
 import { formatCurrency, formatDate } from '../utils/format';
 import { quotationService } from '../services/quotationService';
 import { Quotation } from '../types';
@@ -47,9 +47,7 @@ const QuotationDetails = () => {
     }
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
+  
 
   if (isLoading) {
     return <div className="text-gray-500">Loading quotation...</div>;
@@ -82,15 +80,9 @@ const QuotationDetails = () => {
             className="flex items-center gap-2 bg-solar-600 text-white px-3 py-1 rounded-lg text-sm sm:px-4 sm:py-2 sm:text-base hover:bg-solar-700 transition-colors"
           >
             <Download className="w-3 h-3 sm:w-4 sm:h-4" />
-            Download PDF
+            Download
           </button>
-          <button
-            onClick={handlePrint}
-            className="flex items-center gap-2 border border-gray-300 px-3 py-1 rounded-lg text-sm sm:px-4 sm:py-2 sm:text-base hover:bg-gray-50 transition-colors"
-          >
-            <Printer className="w-3 h-3 sm:w-4 sm:h-4" />
-            Print
-          </button>
+          
           <Link
             to={`/quotations/${quotation._id}/edit`}
             className="flex items-center gap-2 border border-gray-300 px-3 py-1 rounded-lg text-sm sm:px-4 sm:py-2 sm:text-base hover:bg-gray-50 transition-colors"

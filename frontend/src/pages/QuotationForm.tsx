@@ -63,19 +63,20 @@ const QuotationForm = () => {
   const loadQuotation = async () => {
     try {
       const quotation = await quotationService.getById(id!);
-      setFormData({
-        customerName: typeof quotation.customerId === 'object' ? quotation.customerId.name || '' : '',
-        customerCompany: typeof quotation.customerId === 'object' ? quotation.customerId.companyName || '' : '',
-        customerPhone: typeof quotation.customerId === 'object' ? quotation.customerId.phone || '' : '',
-        customerEmail: typeof quotation.customerId === 'object' ? quotation.customerId.email || '' : '',
-        customerAddress: typeof quotation.customerId === 'object' ? quotation.customerId.address || '' : '',
+      setFormData(prev => ({
+        ...prev,
+        customerName: quotation.customerName || (typeof quotation.customerId === 'object' ? quotation.customerId.name || '' : ''),
+        customerCompany: quotation.customerCompany || (typeof quotation.customerId === 'object' ? quotation.customerId.companyName || '' : ''),
+        customerPhone: quotation.customerPhone || (typeof quotation.customerId === 'object' ? quotation.customerId.phone || '' : ''),
+        customerEmail: quotation.customerEmail || (typeof quotation.customerId === 'object' ? quotation.customerId.email || '' : ''),
+        customerAddress: quotation.customerAddress || (typeof quotation.customerId === 'object' ? quotation.customerId.address || '' : ''),
         quotationDate: new Date(quotation.quotationDate).toISOString().split('T')[0],
         discount: quotation.discount,
         vatRate: quotation.vatRate,
         isVatable: quotation.vatRate > 0,
         notes: quotation.notes || '',
         termsAndConditions: quotation.termsAndConditions || '',
-      });
+      }));
       setItems(quotation.items);
     } catch (error) {
       toast.error('Failed to load quotation');
@@ -280,18 +281,12 @@ const QuotationForm = () => {
         <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Items</h2>
-            <button
-              type="button"
-              onClick={addItem}
-              className="flex items-center gap-2 bg-solar-600 text-white px-3 py-2 rounded-lg hover:bg-solar-700 transition-colors text-sm"
-            >
-              <Plus className="w-4 h-4" />
-              Add Item
-            </button>
+            
           </div>
 
           {items.length === 0 ? (
             <p className="text-gray-500 text-center py-8">No items added yet</p>
+            
           ) : (
             <div className="space-y-4">
               {items.map((item, index) => (
@@ -372,7 +367,18 @@ const QuotationForm = () => {
               ))}
             </div>
           )}
+          <div className="flex justify-center mt-3">
+    <button
+    type="button"
+    onClick={addItem}
+    className="flex items-center gap-2 bg-solar-600 text-white px-3 py-2 rounded-lg hover:bg-solar-700 transition-colors text-sm"
+  >
+    <Plus className="w-4 h-4" />
+    Add Item
+  </button>
+</div>
         </div>
+        
 
         {/* Summary */}
         <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 border border-gray-200">
