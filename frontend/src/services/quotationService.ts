@@ -3,7 +3,7 @@ import { Quotation, DashboardStats, Settings } from '../types';
 import { generateQuotationPDF } from '../utils/quotationPdf';
 
 export const quotationService = {
-  getAll: async (search?: string, status?: string, startDate?: string, endDate?: string): Promise<Quotation[]> => {
+  getAll: async (search?: string, status?: string, _startDate?: string, _endDate?: string): Promise<Quotation[]> => {
     return quotationStorage.getAll({ search, status });
   },
 

@@ -4,14 +4,16 @@ import { Quotation, Settings } from '../types';
 export const generateQuotationPDF = (quotation: Quotation, settings?: Settings | null): Blob => {
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
   const margin = 40;
+  const contentWidth = 515;
   let y = margin;
 
-  doc.setFontSize(18);
+  // Header
+  doc.setFontSize(20);
   doc.setTextColor('#1a5f2a');
   doc.text('SOLARX', margin, y);
-  y += 24;
+  y += 26;
 
-  doc.setFontSize(11);
+  doc.setFontSize(10);
   doc.setTextColor('#333');
   if (settings?.company?.address) {
     doc.text(String(settings.company.address), margin, y);
@@ -27,83 +29,94 @@ export const generateQuotationPDF = (quotation: Quotation, settings?: Settings |
   }
   if (settings?.company?.website) {
     doc.text(String(settings.company.website), margin, y);
-    y += 20;
+    y += 18;
   }
 
-  doc.setFontSize(14);
+  doc.setFontSize(16);
   doc.text('QUOTATION', margin, y);
-  y += 20;
+  y += 22;
 
   doc.setFontSize(10);
   doc.text(`Quotation No: ${quotation.quotationNumber}`, margin, y);
   doc.text(`Date: ${new Date(quotation.quotationDate).toLocaleDateString()}`, 350, y);
-  y += 14;
+  y += 16;
   if (quotation.validUntil) {
     doc.text(`Valid Until: ${new Date(quotation.validUntil).toLocaleDateString()}`, 350, y);
-    y += 14;
+    y += 16;
   }
 
-  y += 8;
+  y += 10;
   doc.setFontSize(12);
   doc.text('Bill To:', margin, y);
   doc.setFontSize(10);
   const customerName = quotation.customerName || quotation.customerCompany || '';
-  doc.text(customerName, margin + 50, y);
+  doc.text(customerName, margin + 52, y);
   y += 18;
 
-  // Items
+  // Customer info spacing
   y += 8;
-  doc.setFontSize(10);
-  doc.text('Item', margin, y);
-  doc.text('Description', margin + 120, y);
-  doc.text('Qty', 350, y);
-  doc.text('Unit', 380, y);
-  doc.text('Unit Price', 430, y);
-  doc.text('Total', 500, y);
-  y += 14;
 
+  // Items table - hide price details
+  const itemColX = margin;
+  const descriptionColX = margin + 150;
+  const qtyColX = margin + 420;
+
+  doc.setFontSize(10);
+  doc.setFillColor(26, 95, 42);
+  doc.rect(margin, y, contentWidth, 18, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.text('Item', itemColX + 6, y + 12);
+  doc.text('Description', descriptionColX + 6, y + 12);
+  doc.text('Qty', qtyColX + 6, y + 12);
+  y += 18;
+
+  doc.setTextColor('#333');
   quotation.items.forEach((item) => {
-    if (y > 740) {
+    if (y > 730) {
       doc.addPage();
       y = margin;
     }
-    doc.text(item.productName || item.productCode || '-', margin, y);
-    doc.text(item.description || '-', margin + 120, y, { maxWidth: 200 });
-    doc.text(String(item.quantity), 350, y);
-    doc.text(String(item.unit || '-'), 380, y);
-    doc.text(Number(item.unitPrice).toFixed(2), 430, y);
-    doc.text(Number(item.total).toFixed(2), 500, y);
-    y += 14;
+
+    const itemName = item.productName || item.productCode || '-';
+    const description = item.description || '—';
+
+    doc.setFillColor(245, 245, 245);
+    doc.rect(margin, y, contentWidth, 22, 'F');
+    doc.setTextColor('#333');
+    doc.text(itemName, itemColX + 6, y + 14, { maxWidth: 120 });
+    doc.text(description, descriptionColX + 6, y + 14, { maxWidth: 220 });
+    doc.text(String(item.quantity), qtyColX + 6, y + 14);
+    y += 22;
   });
 
-  y += 20;
-  doc.text('Subtotal:', 400, y);
-  doc.text(Number(quotation.subtotal || 0).toFixed(2), 500, y);
-  y += 14;
-  if (quotation.discount && quotation.discount > 0) {
-    doc.text('Discount:', 400, y);
-    doc.text(`-${Number(quotation.discount).toFixed(2)}`, 500, y);
-    y += 14;
-  }
-  if (quotation.vat && quotation.vat > 0) {
-    doc.text(`VAT (${quotation.vatRate}%):`, 400, y);
-    doc.text(Number(quotation.vat).toFixed(2), 500, y);
-    y += 14;
-  }
+  // Final total only
+  y += 22;
+  doc.setDrawColor(200, 200, 200);
+  doc.line(margin, y, margin + contentWidth, y);
+  y += 16;
 
-  y += 8;
   doc.setFontSize(12);
-  doc.text('GRAND TOTAL:', 400, y);
-  doc.text(Number(quotation.grandTotal || 0).toFixed(2), 500, y);
+  doc.setTextColor('#1a5f2a');
+  doc.text('GRAND TOTAL:', margin + 330, y);
+  doc.text(`₱${Number(quotation.grandTotal || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, margin + 430, y);
 
-  // Notes
   if (quotation.notes) {
-    y += 24;
+    y += 30;
     doc.setFontSize(10);
+    doc.setTextColor('#333');
     doc.text('Notes:', margin, y);
-    y += 14;
+    y += 16;
     doc.setFontSize(9);
-    doc.text(String(quotation.notes), margin, y, { maxWidth: 520 });
+    doc.text(String(quotation.notes), margin, y, { maxWidth: contentWidth });
+  }
+
+  if (quotation.termsAndConditions) {
+    y += 30;
+    doc.setFontSize(10);
+    doc.text('Terms & Conditions:', margin, y);
+    y += 16;
+    doc.setFontSize(9);
+    doc.text(String(quotation.termsAndConditions), margin, y, { maxWidth: contentWidth });
   }
 
   const blob = doc.output('blob');
