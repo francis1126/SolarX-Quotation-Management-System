@@ -20,13 +20,13 @@ export const formatShortDate = (date: string | Date): string => {
 
 export const getStatusColor = (status: string): string => {
   const colors: Record<string, string> = {
-    Draft: 'bg-gray-100 text-gray-800',
-    Sent: 'bg-blue-100 text-blue-800',
-    Accepted: 'bg-green-100 text-green-800',
-    Rejected: 'bg-red-100 text-red-800',
-    Expired: 'bg-gray-200 text-gray-700',
-    active: 'bg-green-100 text-green-800',
-    inactive: 'bg-gray-100 text-gray-800',
+    Draft: 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300',
+    Sent: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300',
+    Accepted: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
+    Rejected: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300',
+    Expired: 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300',
+    active: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300',
+    inactive: 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300',
   };
-  return colors[status] || 'bg-gray-100 text-gray-800';
+  return colors[status] || 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300';
 };

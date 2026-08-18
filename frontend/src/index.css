@@ -5,3 +5,224 @@
 body {
   @apply bg-gray-50 text-gray-900;
 }
+
+/* Smooth Transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Global Animation Classes */
+.animate-card {
+  @apply animate-scale-in;
+}
+
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+
+/* Smooth transitions for interactive elements */
+a, button {
+  @apply transition-all duration-200;
+}
+
+button:hover:not(:disabled) {
+  @apply -translate-y-0.5;
+}
+
+input:focus, textarea:focus, select:focus {
+  @apply ring-2 ring-solar-500 ring-opacity-50;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  body.dark {
+    @apply bg-gray-900 text-gray-50;
+  }
+}
+
+body.dark {
+  @apply bg-gray-900 text-gray-50;
+}
+
+body.dark .bg-white {
+  @apply bg-gray-800;
+}
+
+body.dark .bg-gray-50 {
+  @apply bg-gray-900;
+}
+
+body.dark .bg-gray-100 {
+  @apply bg-gray-800;
+}
+
+body.dark .text-gray-900 {
+  @apply text-gray-50;
+}
+
+body.dark .text-gray-700 {
+  @apply text-gray-300;
+}
+
+body.dark .text-gray-600 {
+  @apply text-gray-400;
+}
+
+body.dark .text-gray-500 {
+  @apply text-gray-400;
+}
+
+body.dark .border-gray-200 {
+  @apply border-gray-700;
+}
+
+body.dark .border-gray-100 {
+  @apply border-gray-800;
+}
+
+body.dark .hover\:bg-gray-100:hover {
+  @apply bg-gray-800;
+}
+
+body.dark .bg-blue-50 {
+  @apply bg-blue-900;
+}
+
+body.dark .bg-red-50 {
+  @apply bg-red-900;
+}
+
+body.dark .bg-yellow-50 {
+  @apply bg-yellow-900;
+}
+
+body.dark .bg-green-50 {
+  @apply bg-green-900;
+}
+
+/* Dark Mode - Form Elements */
+body.dark input[type="text"],
+body.dark input[type="email"],
+body.dark input[type="password"],
+body.dark input[type="number"],
+body.dark input[type="date"],
+body.dark textarea,
+body.dark select {
+  @apply bg-gray-700 text-gray-50 border-gray-600;
+}
+
+body.dark input::placeholder {
+  @apply text-gray-400;
+}
+
+/* Print Styles */
+@media print {
+  /* Hide UI elements not needed for printing */
+  .print-hidden,
+  .no-print,
+  header,
+  aside,
+  .sidebar,
+  [role="navigation"],
+  button:not(.print-only),
+  [class*="btn"],
+  .shadow,
+  .shadow-sm {
+    display: none !important;
+  }
+
+  /* Page setup */
+  body {
+    @apply bg-white text-gray-900;
+    font-size: 12pt;
+  }
+
+  /* Print-friendly page */
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+
+  /* Main content */
+  main {
+    @apply m-0 p-0 lg:ml-0;
+  }
+
+  /* Print container */
+  .printable-section {
+    @apply bg-white text-black p-6 rounded-none shadow-none border-none;
+    page-break-inside: avoid;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  table,
+  tr,
+  th,
+  td {
+    border: 1px solid #000;
+  }
+
+  th,
+  td {
+    padding: 0.5rem;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f3f4f6 !important;
+    font-weight: bold;
+  }
+
+  /* Links */
+  a {
+    text-decoration: underline;
+    color: #000;
+  }
+
+  /* Headings */
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  /* Paragraphs */
+  p {
+    page-break-inside: avoid;
+  }
+
+  /* Preserve grid layouts for print */
+  .grid {
+    display: block;
+  }
+
+  .grid > * {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  /* Color adjustments for print */
+  .text-solar-600,
+  .bg-solar-600,
+  .border-solar-600 {
+    color: #000 !important;
+    background-color: transparent !important;
+    border-color: #000 !important;
+  }
+}
